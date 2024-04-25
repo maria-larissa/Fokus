@@ -43,21 +43,17 @@ const soundFinishedTimer= new Audio('/sounds/beep.mp3');
 
 focusButton.addEventListener('click', () => {
     // Setting correct time for each option
-    zero();
     timePassedOnSeconds = timeFocusButton;
     
     // Changing image and background color
     changeContextBanner('foco');
 
-
     // Changing button style
     focusButton.classList.add('active');
-    
 })
 
 shortButton.addEventListener('click', ()=>{
     // Setting correct time for each option
-    zero();
     timePassedOnSeconds = timeShortButton;
 
     // Changing image and background color
@@ -65,12 +61,10 @@ shortButton.addEventListener('click', ()=>{
     
     // Changing button style
     shortButton.classList.add('active');
-
 })
 
 longButton.addEventListener('click', ()=>{
     // Setting correct time for each option
-    zero();
     timePassedOnSeconds = timeLongButton;
     
     // Changing image and background color
@@ -78,10 +72,11 @@ longButton.addEventListener('click', ()=>{
     
     // Changing button style
     longButton.classList.add('active');
-    
 })
 
-function changeContextBanner(context){    
+function changeContextBanner(context){ 
+    zero();
+
     // Changing background body color
     htmlDocument.setAttribute('data-contexto', context);
 
@@ -114,6 +109,9 @@ function changeContextBanner(context){
         default:
             break;
     }
+
+    // upgrading time diplayed
+    showTime();
 }
 
 // Playing or pausing relaxing music
@@ -136,7 +134,7 @@ const countDown = () => {
     }
 
     timePassedOnSeconds -= 1;
-    console.log('temporiorizador: ' + timePassedOnSeconds);
+    showTime();
 }
 
 startPauseButton.addEventListener('click', startPauseTime);
@@ -166,3 +164,17 @@ function zero(){
     clearInterval(intervaloId);
     intervaloId = null
 }
+
+function showTime(){
+    // transforming seconds in miliseconds
+    const time = new Date(timePassedOnSeconds * 1000);
+
+    // Formating time to 00:00 
+    const formatedTime = time.toLocaleString('pt-br', {minute: '2-digit', second: '2-digit'});
+
+    // displaying time
+    timerDisplay.innerHTML = `${formatedTime}`;
+}
+
+// Start page showing time
+showTime();
